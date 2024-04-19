@@ -5,7 +5,7 @@ import TempoForm from './components/tempoForm';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>DDR Tempo Tracker</Text>
+      <Text style={styles.title}>DDR Tempo Tracker</Text>
       <StatusBar style="auto" />
       <TempoForm/>
     </View>
@@ -15,8 +15,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#91fff0',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  title: {
+    fontSize: 24
+  }
 });
