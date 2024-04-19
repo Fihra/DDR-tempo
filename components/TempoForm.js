@@ -1,20 +1,18 @@
 import { useState } from 'react';
+import SelectDropdown from 'react-native-select-dropdown'
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { tempoMods } from './tempoMods';
+import { styles } from './styles';
 
 const TempoForm = () => {
-    const [ editMode, setEditMode ] = useState({
-        editMinTempo: false,
-        editMaxTempo: false
-    });
     const [tempoForm, setTempoForm] = useState({
-        minTempo: 10,
-        maxTempo: 400
+        minTempo: 100,
+        maxTempo: 200
     });
 
     const [tempo, setTempo] = useState({
-        minTempo: 10,
-        maxTempo: 400,
+        minTempo: 100,
+        maxTempo: 200,
         currentTempoMod: 1
     })
 
@@ -32,11 +30,10 @@ const TempoForm = () => {
         })
     }
 
-    const onCurrentTempoModChange = (e) => {
-        e.preventDefault();
+    const onCurrentTempoModChange = (val) => {
         setTempo({
             ...tempo,
-            currentTempoMod: e.target.value
+            currentTempoMod: val
         })
     }
 
@@ -44,11 +41,11 @@ const TempoForm = () => {
         return (
                 <TextInput
                     onChangeText={val => onTempoFormChange(val, 'minTempo')}
-                    // onSubmitEditing={(output) => console.log(tempoForm.minTempo)}
                     onSubmitEditing={() => onTempoChange(tempoForm.minTempo, 'minTempo')}
                     value={tempoForm.minTempo}
                     inputMode='numeric'
                     maxLength="3"
+                    style={styles.tempoForm}
                 />
         )
     }
@@ -57,50 +54,69 @@ const TempoForm = () => {
         return (
             <TextInput
             onChangeText={val => onTempoFormChange(val, 'maxTempo')}
-            // onSubmitEditing={(output) => console.log(tempoForm.maxTempo)}
             onSubmitEditing={() => onTempoChange(tempoForm.maxTempo, 'maxTempo')}
             value={tempoForm.maxTempo}
             inputMode='numeric'
             maxLength="4"
+            style={Object.assign({}, styles.tempoForm, {textAlign: 'right'})}
             />
         )
     }
 
     const showTempoMods = () => {
-        // console.log(tempo.currentTempoMod);
-        // console.log(tempoMods)
+        const textStyleArrays = [styles.pointMain, styles.point25, styles.point5, styles.point75];
+        let counter = tempoMods[tempo.currentTempoMod].length > 3 ? -1 : 0;
 
-        // console.log(Object.keys(tempoMods));
         return (
-            <ul>
-                {/* <li>x0.25: {tempo.minTempo * 0.25} - {tempo.maxTempo * 0.25} </li>
-                <li>x0.50: {tempo.minTempo * 0.50} - {tempo.maxTempo * 0.50} </li>
-                <li>x0.75: {tempo.minTempo * 0.75} - {tempo.maxTempo * 0.75} </li>
-                <li>x1.25: {tempo.minTempo * 1.25} - {tempo.maxTempo * 1.25} </li>
-                <li>x1.50: {tempo.minTempo * 1.50} - {tempo.maxTempo * 1.50} </li>
-                <li>x1.75: {tempo.minTempo * 1.75} - {tempo.maxTempo * 1.75} </li>
-                <li>x2.00: {tempo.minTempo * 2.00} - {tempo.maxTempo * 2.00} </li>
-                <li>x2.25: {tempo.minTempo * 2.25} - {tempo.maxTempo * 2.25} </li> */}
-            </ul>
+            // <ul>
+            //     {tempoMods[tempo.currentTempoMod].map(temp => {
+            //         return <li>x{temp} : {tempo.minTempo * temp} - {tempo.maxTempo * temp}</li>
+            //     })}
+            // </ul>
+            <View>
+                {tempoMods[tempo.currentTempoMod].map(temp => {
+                    counter++;
+                    return <Text style={styles.modSpacing}><Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text> : <Text style={styles.modTempoFont}>{tempo.minTempo * temp} - {tempo.maxTempo * temp} </Text></Text>
+                })}
+            </View>
+
+        )
+    }
+
+    const tempoModDropdown = () => {
+        const nums = [0,1,2,3,4,5,6,7,8,9];
+        return (
+            <SelectDropdown
+                data={nums}
+                onSelect={(selectedItem, index) => {
+                    onCurrentTempoModChange(selectedItem)
+                    // console.log(selectedItem, index);
+                }}
+                defaultValueByIndex={1}
+                renderButton={(selectedItem, isOpened) => {
+                    return(
+                        <View>
+                            <Text>Select Mod</Text>
+                            <Text>Current Speed: {selectedItem}</Text>
+                        </View>
+                    )
+                }}
+                renderItem={(item, index, isSelected) => {
+                    return(
+                        <View>
+                            <Text>{item}</Text>
+                        </View>
+                    )
+                }}
+            />
         )
     }
 
     return(
         <View>
-            <Text>Tempo: {showMinTempoInput()} - {showMaxTempoInput()} </Text>
-            {/* {showTempoMods()} */}
-            <select onChange={(e) => onCurrentTempoModChange(e) } defaultValue="1">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-            </select>
+            <Text style={styles.tempoStyle}>Tempo: {showMinTempoInput()} - {showMaxTempoInput()} </Text>
+            {showTempoMods()}
+            {tempoModDropdown()}
         </View>
     )
 }
