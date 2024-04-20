@@ -1,10 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import TempoForm from './components/tempoForm';
+import DDR_Arrows from './assets/DDR_Arrows.png';
 
 export default function App() {
   return (
     <View style={styles.container}>
+      <Image
+        style={{maxWidth: 250, maxHeight: 100}}
+        source={DDR_Arrows}
+        alt="DDR Arrows"
+      />
       <Text style={styles.title}>DDR Tempo Tracker</Text>
       <StatusBar style="auto" />
       <TempoForm/>
@@ -20,6 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 24
+    fontSize: 36,
+    paddingBottom: 24,
   }
 });
