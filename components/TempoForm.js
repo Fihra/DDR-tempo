@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import SelectDropdown from 'react-native-select-dropdown'
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { tempoMods } from './tempoMods';
 import { styles } from './styles';
+import RangeSlider from '@3beeepb/react-native-range-slider';
 
 const TempoForm = () => {
     const [tempoForm, setTempoForm] = useState({
@@ -16,17 +17,43 @@ const TempoForm = () => {
         currentTempoMod: 1
     })
 
+    const handleValueChange = useCallback((low, high, isUpdate) => {
+        if (isUpdate) {
+        //   setLow(low);
+        //   setHigh(high);
+        console.log(typeof low);
+        setTempoForm({
+            ...tempoForm,
+            minTempo: low,
+            maxTempo: high
+        })
+        setTempo({
+            ...tempo,
+            minTempo: low,
+            maxTempo: high
+        })
+        // console.log("low: ", low);
+        // console.log("high: ", high);
+        }
+      }, []);
+
+
+    const handleChange = useCallback(() => {
+        // release thumb
+        
+    }, []);
+
     const onTempoFormChange = (value, name) => {
         setTempoForm({
             ...tempoForm,
-            [name]: value
+            [name]: parseInt(value)
         });
     }
 
     const onTempoChange = (value, name) => {
         setTempo({
             ...tempo,
-            [name]: value
+            [name]: parseInt(value)
         })
     }
 
@@ -68,11 +95,6 @@ const TempoForm = () => {
         let counter = tempoMods[tempo.currentTempoMod].length > 3 ? -1 : 0;
 
         return (
-            // <ul>
-            //     {tempoMods[tempo.currentTempoMod].map(temp => {
-            //         return <li>x{temp} : {tempo.minTempo * temp} - {tempo.maxTempo * temp}</li>
-            //     })}
-            // </ul>
             <View>
                 {tempoMods[tempo.currentTempoMod].map(temp => {
                     counter++;
@@ -114,6 +136,13 @@ const TempoForm = () => {
 
     return(
         <View>
+            <RangeSlider
+                style={styles.slider}
+                min={10}
+                max={1000}
+                onChange={handleChange}
+                onValueChanged={handleValueChange}
+            />
             <Text style={styles.tempoStyle}>Tempo: {showMinTempoInput()} - {showMaxTempoInput()} </Text>
             {showTempoMods()}
             {tempoModDropdown()}
