@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     },
     tempoForm: {
         width: 100,
-        fontSize: 40
+        fontSize: 30
     },
     tempoBold: {
         fontWeight: 'bold',
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         paddingBottom: 12
     },
     modTempoFont: {
-        fontSize: 30
+        fontSize: 18
     },
     pointMain: {
         color: 'blue'
