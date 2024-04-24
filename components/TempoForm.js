@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import SelectDropdown from 'react-native-select-dropdown'
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Pressable } from 'react-native';
 import { tempoMods } from './tempoMods';
 import { styles } from './styles';
 import RangeSlider from '@3beeepb/react-native-range-slider';
@@ -133,7 +133,6 @@ const TempoForm = () => {
             />
         )
     }
-
     return(
         <View>
             <RangeSlider
@@ -144,7 +143,36 @@ const TempoForm = () => {
                 onValueChanged={handleValueChange}
             />
             <Text style={styles.tempoStyle}>Tempo: {showMinTempoInput()} - {showMaxTempoInput()} </Text>
-            {showTempoMods()}
+            <View style={styles.buttonModsContainer}>
+                <View>
+                {
+                    Array(5).fill().map((_, i) => {i
+                        return (
+                            <Pressable style={styles.buttonStyle} onPress={() => onCurrentTempoModChange(i)}>
+                                <Text>{i}</Text>
+                            </Pressable>
+                        )
+                    })
+                }
+                </View>
+
+                {showTempoMods()}
+                <View>
+                    {
+                    Array(5).fill().map((_, i) => {
+                        const num = 5;
+                        let newNum = num + i;
+                        return (
+                            <Pressable onPress={() => onCurrentTempoModChange(newNum)}>
+                                <View style={styles.buttonStyle}>
+                                <Text>{newNum}</Text>
+                                </View>
+                            </Pressable>
+                        )
+                    })
+                }
+                </View>
+            </View>
             {tempoModDropdown()}
         </View>
     )
