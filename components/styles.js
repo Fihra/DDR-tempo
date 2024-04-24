@@ -31,5 +31,29 @@ export const styles = StyleSheet.create({
     },
     point75: {
         color: 'red'
+    },
+    buttonModsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 5,
+        gap: 55
+    },
+    buttonsLeftContainer: {
+        flex: 2,
+        padding: 10
+    },
+    buttonsRightContainer: {
+        flex: 2,
+        padding: 10
+    },
+    buttonStyle: {
+        height: 50,
+        width: 50,
+        padding: 10,
+        borderStyle: "solid",
+        borderColor: 'blue',
+        color: 'red',
+        borderRadius: 5
     }
+
   });
