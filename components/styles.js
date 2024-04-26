@@ -47,13 +47,24 @@ export const styles = StyleSheet.create({
         padding: 10
     },
     buttonStyle: {
-        height: 50,
-        width: 50,
-        padding: 10,
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        marginVertical: 12,
+        backgroundColor: '#0083E1',
+        borderRadius: 4,
+        elevation: 3,
         borderStyle: "solid",
         borderColor: 'blue',
-        color: 'red',
         borderRadius: 5
+    },
+    buttonText: {
+        color: 'white'
+    },
+    selectedButton: {
+        backgroundColor: 'green',
+    },
+    unselectedButton: {
+        backgroundColor: '#0083E1',
     }
 
   });
