@@ -29,8 +29,6 @@ const TempoForm = () => {
         currentTempoMod: 1
     })
 
-    // const processArrays = useMemo(() => getZeroToFourMod())
-
     const handleValueChange = useCallback((low, high, isUpdate) => {
         if (isUpdate) {
         setTempoForm({
@@ -73,13 +71,6 @@ const TempoForm = () => {
         })
 
         copySpeedModMap[val] = true;
-
-        // let copyspeedModMap = [...tempo.speedModMap].map((speedNum, index) => {
-        //     if(index === val) {
-        //         return speedNum[index] = true;
-        //     }
-        //     return speedNum[index] = false;
-        // });
 
         setTempo({
             ...tempo,
@@ -133,9 +124,6 @@ const TempoForm = () => {
         return( 
             Object.keys(tempo.speedModMap).slice(0, 5).map((num) => Number(num)).map((_, i) => {
             return (
-                // <Pressable style={[styles.buttonStyle]} onPress={() => onCurrentTempoModChange(i)}>
-                //     <Text style={styles.buttonText}>{i}</Text>
-                // </Pressable>
                 outputButton(i)
             )
         })
@@ -147,9 +135,6 @@ const TempoForm = () => {
             Object.keys(tempo.speedModMap).slice(5, 10).map((num) => Number(num)).map((item, i) => {
                 console.log(item)
                 return (
-                    // <Pressable style={[styles.buttonStyle]} onPress={() => onCurrentTempoModChange(i)}>
-                    //     <Text style={styles.buttonText}>{i}</Text>
-                    // </Pressable>
                     outputButton(item)
                 )
             })
@@ -174,8 +159,6 @@ const TempoForm = () => {
                 
     }
 
-    // console.log(getFiveToNineMod());
-
     const getFullSpeedMod = () => {
         return Object.keys(tempo.speedModMap).map((num) => Number(num));
     }
@@ -185,7 +168,6 @@ const TempoForm = () => {
             <SelectDropdown
                 data={getFullSpeedMod()}
                 onSelect={(selectedItem, index) => {
-                    // console.log(selectedItem, index);
                     onCurrentTempoModChange(selectedItem)
                     
                 }}
@@ -209,7 +191,6 @@ const TempoForm = () => {
         )
     }
 
-    // console.log(tempo.currentTempoMod);
     console.log(tempo.speedModMap);
     return(
         <View>
@@ -224,31 +205,13 @@ const TempoForm = () => {
             <View style={styles.buttonModsContainer}>
                 <View>
                 {
-                    // getZeroToFourMod().map((_, i) => {
-                    //     return (
-                    //         <Pressable style={[styles.buttonStyle]} onPress={() => onCurrentTempoModChange(i)}>
-                    //             <Text style={styles.buttonText}>{i}</Text>
-                    //         </Pressable>
-                    //     )
-                    // })
                     getZeroToFourMod()
-                    
                 }
                 </View>
 
                 {showTempoMods()}
                 <View>
                     {
-                    // getFiveToNineMod().map((_, i) => {
-                    //     const num = 5;
-                    //     let newNum = num + i;
-                        
-                    //     return (
-                    //         <Pressable style={[styles.buttonStyle, tempo.speedModMap[tempo.currentTempoMod] === true ? styles.selectedButton : styles.unselectedButton]} onPress={() => onCurrentTempoModChange(newNum)}>
-                    //             <Text style={styles.buttonText}>{newNum}</Text>
-                    //         </Pressable>
-                    //     )
-                    // })
                     getFiveToNineMod()
                 }
                 </View>
