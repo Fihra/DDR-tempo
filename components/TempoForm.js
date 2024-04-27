@@ -1,9 +1,10 @@
 import { useState, useCallback, useMemo } from 'react';
 import SelectDropdown from 'react-native-select-dropdown'
-import { StyleSheet, Text, View, TextInput, Button, Pressable, TouchableHighlight } from 'react-native';
+import { Text, View, TextInput,Pressable } from 'react-native';
 import { tempoMods } from './tempoMods';
 import { styles } from './styles';
 import RangeSlider from '@3beeepb/react-native-range-slider';
+import ScrollPreview from './scrollPreview';
 
 const TempoForm = () => {
     const [tempoForm, setTempoForm] = useState({
@@ -29,6 +30,8 @@ const TempoForm = () => {
         currentTempoMod: 1
     })
 
+    const [ isScrollPreviewOn, setisScrollPreviewOn ] = useState(false);
+
     const handleValueChange = useCallback((low, high, isUpdate) => {
         if (isUpdate) {
         setTempoForm({
@@ -47,7 +50,6 @@ const TempoForm = () => {
 
     const handleChange = useCallback(() => {
         // release thumb
-        
     }, []);
 
     const onTempoFormChange = (value, name) => {
@@ -111,9 +113,9 @@ const TempoForm = () => {
 
         return (
             <View>
-                {tempoMods[tempo.currentTempoMod].map(temp => {
+                {tempoMods[tempo.currentTempoMod].map((temp, idx) => {
                     counter++;
-                    return <Text style={styles.modSpacing}><Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text> : <Text style={styles.modTempoFont}>{tempo.minTempo * temp} - {tempo.maxTempo * temp} </Text></Text>
+                    return <Text key={idx} style={styles.modSpacing}><Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text> : <Text style={styles.modTempoFont}>{tempo.minTempo * temp} - {tempo.maxTempo * temp} </Text></Text>
                 })}
             </View>
 
@@ -141,57 +143,24 @@ const TempoForm = () => {
         )
     }
 
+    console.log(tempo.currentTempoMod);
+
     const outputButton = (i) => {
-        console.log(tempo.currentTempoMod);
         if(tempo.speedModMap[i] === true){
             return (
-                <Pressable style={[styles.buttonStyle, styles.selectedButton ]} onPress={() => onCurrentTempoModChange(i)}>
+                <Pressable key={i} style={[styles.buttonStyle, styles.selectedButton ]} onPress={() => onCurrentTempoModChange(i)}>
                 <Text style={styles.buttonText}>{i}</Text>
             </Pressable>
             )
         } else {
             return (
-                <Pressable style={[styles.buttonStyle, styles.unselectedButton ]} onPress={() => onCurrentTempoModChange(i)}>
+                <Pressable key={i} style={[styles.buttonStyle, styles.unselectedButton ]} onPress={() => onCurrentTempoModChange(i)}>
                 <Text style={styles.buttonText}>{i}</Text>
             </Pressable>
             )
-        }
-                
+        }      
     }
 
-    const getFullSpeedMod = () => {
-        return Object.keys(tempo.speedModMap).map((num) => Number(num));
-    }
-
-    const tempoModDropdown = () => {
-        return (
-            <SelectDropdown
-                data={getFullSpeedMod()}
-                onSelect={(selectedItem, index) => {
-                    onCurrentTempoModChange(selectedItem)
-                    
-                }}
-                defaultValueByIndex={1}
-                renderButton={(selectedItem, isOpened) => {
-                    return(
-                        <View>
-                            <Text>Select Mod</Text>
-                            <Text>Current Speed: {selectedItem}</Text>
-                        </View>
-                    )
-                }}
-                renderItem={(item, index, isSelected) => {
-                    return(
-                        <View>
-                            <Text>{item}</Text>
-                        </View>
-                    )
-                }}
-            />
-        )
-    }
-
-    console.log(tempo.speedModMap);
     return(
         <View>
             <RangeSlider
@@ -216,7 +185,13 @@ const TempoForm = () => {
                 }
                 </View>
             </View>
-            {tempoModDropdown()}
+            <Pressable onPress={() => setisScrollPreviewOn(!isScrollPreviewOn)}>
+                <Text>{isScrollPreviewOn ? "Show Arrow Scroll Preview" : "Hide Arrow Scroll Preview"}</Text>
+            </Pressable>
+            {
+                isScrollPreviewOn ? <ScrollPreview speedMod={tempo.currentTempoMod} currentMinTempo={tempo.minTempo} currentMaxTempo={tempo.maxTempo}/> : null
+            }
+            
         </View>
     )
 }
