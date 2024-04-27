@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo } from 'react';
-import SelectDropdown from 'react-native-select-dropdown'
 import { Text, View, TextInput,Pressable } from 'react-native';
 import { tempoMods } from './tempoMods';
 import { styles } from './styles';
@@ -31,6 +30,7 @@ const TempoForm = () => {
     })
 
     const [ isScrollPreviewOn, setisScrollPreviewOn ] = useState(false);
+    const [ currentTempoModForPreview, setCurrentTempoModForPreview] = useState(1);
 
     const handleValueChange = useCallback((low, high, isUpdate) => {
         if (isUpdate) {
@@ -49,7 +49,6 @@ const TempoForm = () => {
 
 
     const handleChange = useCallback(() => {
-        // release thumb
     }, []);
 
     const onTempoFormChange = (value, name) => {
@@ -79,6 +78,7 @@ const TempoForm = () => {
             speedModMap: copySpeedModMap,
             currentTempoMod: val
         })
+        adjustSpeed(val);
     }
 
     const showMinTempoInput = () => {
@@ -107,6 +107,10 @@ const TempoForm = () => {
         )
     }
 
+    const adjustSpeed = (temp) => {
+        setCurrentTempoModForPreview(temp);
+    }
+
     const showTempoMods = () => {
         const textStyleArrays = [styles.pointMain, styles.point25, styles.point5, styles.point75];
         let counter = tempoMods[tempo.currentTempoMod].length > 3 ? -1 : 0;
@@ -115,7 +119,9 @@ const TempoForm = () => {
             <View>
                 {tempoMods[tempo.currentTempoMod].map((temp, idx) => {
                     counter++;
-                    return <Text key={idx} style={styles.modSpacing}><Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text> : <Text style={styles.modTempoFont}>{tempo.minTempo * temp} - {tempo.maxTempo * temp} </Text></Text>
+                    return( 
+                        <Pressable key={idx} style={styles.modSpacing} onPress={() => adjustSpeed(temp)}><Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text> <Text style={styles.modTempoFont}>{tempo.minTempo * temp} - {tempo.maxTempo * temp} </Text></Pressable>
+                    )
                 })}
             </View>
 
@@ -135,15 +141,12 @@ const TempoForm = () => {
     const getFiveToNineMod = () => {
         return (
             Object.keys(tempo.speedModMap).slice(5, 10).map((num) => Number(num)).map((item, i) => {
-                console.log(item)
                 return (
                     outputButton(item)
                 )
             })
         )
     }
-
-    console.log(tempo.currentTempoMod);
 
     const outputButton = (i) => {
         if(tempo.speedModMap[i] === true){
@@ -177,8 +180,7 @@ const TempoForm = () => {
                     getZeroToFourMod()
                 }
                 </View>
-
-                {showTempoMods()}
+                    {showTempoMods()}
                 <View>
                     {
                     getFiveToNineMod()
@@ -186,10 +188,10 @@ const TempoForm = () => {
                 </View>
             </View>
             <Pressable onPress={() => setisScrollPreviewOn(!isScrollPreviewOn)}>
-                <Text>{isScrollPreviewOn ? "Show Arrow Scroll Preview" : "Hide Arrow Scroll Preview"}</Text>
+                <Text>{isScrollPreviewOn ? "Hide Arrow Scroll Preview" : "Show Arrow Scroll Preview"}</Text>
             </Pressable>
             {
-                isScrollPreviewOn ? <ScrollPreview speedMod={tempo.currentTempoMod} currentMinTempo={tempo.minTempo} currentMaxTempo={tempo.maxTempo}/> : null
+                isScrollPreviewOn ? <ScrollPreview speedMod={tempo.currentTempoMod} currentMinTempo={tempo.minTempo} currentMaxTempo={tempo.maxTempo} currentTempoModForPreview={currentTempoModForPreview}/> : null
             }
             
         </View>
