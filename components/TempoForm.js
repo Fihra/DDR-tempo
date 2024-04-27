@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { Text, View, TextInput,Pressable } from 'react-native';
 import { tempoMods } from './tempoMods';
 import { styles } from './styles';
