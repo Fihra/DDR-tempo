@@ -36,25 +36,25 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 5,
-        gap: 55
+        gap: 12
     },
     buttonsLeftContainer: {
         flex: 2,
-        padding: 10
+        padding: 6
     },
     buttonsRightContainer: {
         flex: 2,
-        padding: 10
+        padding: 6
     },
     buttonStyle: {
         paddingVertical: 12,
-        paddingHorizontal: 32,
-        marginVertical: 12,
+        paddingHorizontal: 20,
+        marginVertical: 8,
         backgroundColor: '#0083E1',
         borderRadius: 4,
         elevation: 3,
         borderStyle: "solid",
-        borderColor: 'blue',
+        borderColor: 'red',
         borderRadius: 5
     },
     buttonText: {
@@ -65,6 +65,9 @@ export const styles = StyleSheet.create({
     },
     unselectedButton: {
         backgroundColor: '#0083E1',
+    },
+    dropdownList: {
+        margin: 'auto'
     }
 
   });
