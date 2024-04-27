@@ -1,14 +1,11 @@
-import { react, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text } from 'react-native';
 import { useSpring, animated } from '@react-spring/web';
-import { tempoMods } from './tempoMods';
-import { styles } from './styles';
 
 const ScrollPreview = (props) => {  
-    const { speedMod, currentMinTempo, currentMaxTempo } = props;
+    const { currentMinTempo, currentMaxTempo, currentTempoModForPreview } = props;
 
-    const minArrowNote = ((60000 / currentMinTempo) * 4) / speedMod;
-    const maxArrowNote = ((60000 / currentMaxTempo) * 4) / speedMod;
+    const minArrowNote = ((60000 / currentMinTempo) * 4) / currentTempoModForPreview;
+    const maxArrowNote = ((60000 / currentMaxTempo) * 4) / currentTempoModForPreview;
 
     const minSprings = useSpring({
         from: { y: 300, x: 20 },
@@ -28,24 +25,6 @@ const ScrollPreview = (props) => {
         }   
     })
 
-    const adjustSpeed = (temp) => {
-        console.log(temp);
-    }
-
-    const showMods = () => {
-        const textStyleArrays = [styles.pointMain, styles.point25, styles.point5, styles.point75];
-        let counter = tempoMods[speedMod].length > 3 ? -1 : 0;
-
-        return (
-            tempoMods[speedMod].map((temp, idx) => {
-                counter++;
-                return (
-                    <Pressable key={idx} style={styles.modSpacing} onPress={() => adjustSpeed(temp)}><Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text></Pressable>
-                )
-            })
-        )
-    }
-
     return(
         <View style={{flexDirection: 'row', gap: 12}}>
             <View style={{flex: 2}}>
@@ -60,9 +39,8 @@ const ScrollPreview = (props) => {
                     }}
                 />
             </View>
-            <View>
-            <Text>Click Speed</Text>
-            {showMods()}
+            <View style={{flex: 1}}>
+            <Text>| x{currentTempoModForPreview} |</Text>
             </View>
             <View style={{flex: 2}}>
             <Text>Max. Tempo</Text>  
