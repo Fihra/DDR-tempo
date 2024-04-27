@@ -120,7 +120,10 @@ const TempoForm = () => {
                 {tempoMods[tempo.currentTempoMod].map((temp, idx) => {
                     counter++;
                     return( 
-                        <Pressable key={idx} style={styles.modSpacing} onPress={() => adjustSpeed(temp)}><Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text> <Text style={styles.modTempoFont}>{tempo.minTempo * temp} - {tempo.maxTempo * temp} </Text></Pressable>
+                        <Pressable key={idx} style={styles.modSpacing} onPress={() => adjustSpeed(temp)}>
+                            <Text style={Object.assign({}, textStyleArrays[counter], styles.tempoBold)}>x{temp}</Text> 
+                            <Text style={styles.modTempoFont}>{tempo.minTempo * temp} - {tempo.maxTempo * temp} </Text>
+                        </Pressable>
                     )
                 })}
             </View>
