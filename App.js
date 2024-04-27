@@ -7,7 +7,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Image
-        style={{maxWidth: 250, maxHeight: 100}}
+        style={{maxWidth: 200, maxHeight: 60}}
         source={DDR_Arrows}
         alt="DDR Arrows"
       />
@@ -20,13 +20,14 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: -300,
     flex: 1,
     backgroundColor: '#91fff0',
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
-    fontSize: 36,
-    paddingBottom: 24,
+    fontSize: 32,
+    paddingBottom: 20,
   }
 });
