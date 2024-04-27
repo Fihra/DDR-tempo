@@ -11,14 +11,17 @@ export const styles = StyleSheet.create({
     },
     tempoBold: {
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 20,
+        textShadowColor: 'black',
+        textShadowOffset: {width: -1.2, height: 0},
+        textShadowRadius: 2
     },
     modSpacing: {
         paddingTop: 12,
         paddingBottom: 12
     },
     modTempoFont: {
-        fontSize: 18
+        fontSize: 14,
     },
     pointMain: {
         color: 'blue'
@@ -36,7 +39,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 5,
-        gap: 12
+        gap: 52
     },
     buttonsLeftContainer: {
         flex: 2,
@@ -69,5 +72,4 @@ export const styles = StyleSheet.create({
     dropdownList: {
         margin: 'auto'
     }
-
   });
